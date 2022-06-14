@@ -69,8 +69,10 @@ public class User implements UserDetails {
     }
 
     public String rolesString() {
-        String a = getRoles().iterator().next().getAuthority();
-        return a;
+        return getRoles().stream()
+                .map(m->m.getAuthority())
+                .map(p -> p.replace("ROLE_", " "))
+                .collect(Collectors.joining(", "));
     }
 
     @Override
@@ -103,4 +105,11 @@ public class User implements UserDetails {
         return true;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }
